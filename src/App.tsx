@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShieldAlert } from 'lucide-react';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 import { Navbar, ActiveTab } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { HomeView } from './components/home/HomeView';
@@ -149,9 +150,11 @@ const AppInner: React.FC = () => {
 
 // ── Root export wrapped in AuthProvider ──────────────────────────────────────
 export const App: React.FC = () => (
-  <AuthProvider>
-    <AppInner />
-  </AuthProvider>
+  <ThemeProvider>
+    <AuthProvider>
+      <AppInner />
+    </AuthProvider>
+  </ThemeProvider>
 );
 
 export default App;

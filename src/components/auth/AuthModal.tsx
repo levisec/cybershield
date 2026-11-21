@@ -43,7 +43,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       } else if (tab === 'signup') {
         const res = await signUp(email, password, displayName);
         if (res.success) {
-          onClose();
+          if (res.needsConfirmation) {
+            setSuccessMsg(
+              'Account created! Supabase has sent a confirmation link to your email. Please verify it to sign in (or turn off "Confirm email" in your Supabase Auth settings to enable instant sign-in).'
+            );
+            setTab('signin');
+          } else {
+            onClose();
+          }
         } else {
           setErrorMsg(res.error || 'Failed to create account.');
         }

@@ -15,9 +15,12 @@ import {
   X,
   PhoneCall,
   Sparkles,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { Button } from './Button';
 import { UserProfile } from '@/lib/types';
+import { useTheme } from '@/context/ThemeContext';
 
 export type ActiveTab =
   | 'home'
@@ -54,6 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -276,6 +280,20 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right Action buttons */}
           <div className="flex items-center gap-3">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-xl bg-midnight-850 border border-slate-700/80 hover:border-emerald-500/40 text-slate-300 hover:text-emerald-400 transition-colors shadow-sm"
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-cyan-500" />
+              )}
+            </button>
+
             {/* Quick emergency button */}
             <button
               onClick={() => handleNavClick('recovery')}
@@ -412,7 +430,24 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           )}
 
-          <div className="pt-3 border-t border-slate-800">
+          <div className="pt-3 border-t border-slate-800 space-y-2">
+            <button
+              onClick={toggleTheme}
+              className="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-200 hover:bg-slate-800 flex items-center justify-between"
+            >
+              <span className="flex items-center gap-2">
+                {theme === 'dark' ? (
+                  <Sun className="w-4 h-4 text-amber-400" />
+                ) : (
+                  <Moon className="w-4 h-4 text-cyan-500" />
+                )}
+                <span>Appearance</span>
+              </span>
+              <span className="text-xs px-2 py-0.5 rounded bg-midnight-950 border border-slate-700 text-slate-300 capitalize font-mono">
+                {theme} Mode
+              </span>
+            </button>
+
             {!isAuthenticated ? (
               <Button
                 variant="primary"

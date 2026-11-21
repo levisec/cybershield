@@ -6,7 +6,7 @@ interface AuthContextType {
   currentUser: UserProfile | null;
   isLoading: boolean;
   signIn: (email: string, password?: string) => Promise<{ success: boolean; error?: string }>;
-  signUp: (email: string, password?: string, displayName?: string) => Promise<{ success: boolean; error?: string }>;
+  signUp: (email: string, password?: string, displayName?: string) => Promise<{ success: boolean; error?: string; needsConfirmation?: boolean }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
   updateProfile: (displayName: string, saveHistoryConsent: boolean) => Promise<{ success: boolean; error?: string }>;
@@ -124,6 +124,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
           setIsLoading(false);
+          if (error.message.toLowerCase().includes('email not confirmed')) {
+            return {
+              success: false,
+              error:
+                'Email not confirmed yet. Please check your inbox for the confirmation email from Supabase, or turn off "Confirm email" in Supabase Dashboard > Authentication > Providers > Email.',
+            };
+          }
           return { success: false, error: error.message };
         }
         setIsLoading(false);
@@ -159,11 +166,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     email: string,
     password?: string,
     displayName?: string
-  ): Promise<{ success: boolean; error?: string }> => {
+  ): Promise<{ success: boolean; error?: string; needsConfirmation?: boolean }> => {
     setIsLoading(true);
     try {
       if (isSupabaseConfigured() && supabase && password) {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -175,7 +182,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return { success: false, error: error.message };
         }
         setIsLoading(false);
-        return { success: true };
+        const needsConfirmation = !data.session;
+        return { success: true, needsConfirmation };
       } else {
         const newUser: UserProfile = {
           id: 'usr-' + Math.random().toString(36).substring(2, 9),

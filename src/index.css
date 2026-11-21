@@ -12,11 +12,12 @@
     color: #f1f5f9;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
-    background-image:
-      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.045) 0px, transparent 50%),
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
       radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.04) 0px, transparent 50%),
       radial-gradient(at 50% 50%, rgba(7, 12, 30, 0.8) 0px, #040711 100%);
     background-attachment: fixed;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* Accessible focus ring for keyboard navigation */
@@ -26,100 +27,150 @@
   }
 }
 
-@layer components {
-  /* Subtle tech dot/line grid pattern */
-  .bg-grid-pattern {
-    background-size: 32px 32px;
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  }
-
-  /* ── Glass morphism ── */
-  .glass-panel {
-    background: rgba(7, 12, 30, 0.75);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .glass-panel-elevated {
-    background: rgba(11, 18, 43, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
-  }
-
-  .glass-panel-interactive {
-    background: rgba(7, 12, 30, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .glass-panel-interactive:hover {
-    background: rgba(16, 27, 61, 0.85);
-    border-color: rgba(16, 185, 129, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(16, 185, 129, 0.15);
-  }
-
-  /* ── Glow utilities ── */
-  .glow-emerald {
-    box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.2);
-  }
-
-  .glow-cyan {
-    box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.2);
-  }
-
-  .glow-danger {
-    box-shadow: 0 0 35px -5px rgba(239, 68, 68, 0.2);
-  }
-
-  .glow-amber {
-    box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.2);
-  }
-
-  /* ── Text gradient ── */
-  .text-gradient-emerald {
-    background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  /* ── Animate-in utility ── */
-  .animate-in {
-    animation: fade-in 300ms ease-out both;
-  }
-
-  /* ── Scan beam effect ── */
-  .scan-beam {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .scan-beam::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(16, 185, 129, 0.08) 50%,
-      transparent 100%
-    );
-    transform: translateY(-100%);
-    animation: scan-line 3.5s linear infinite;
-    pointer-events: none;
-  }
+/* ── Light Mode Polish ─────────────────────────────────────────── */
+html.light body {
+  background-color: #f8fafc;
+  color: #0f172a;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, #f8fafc 0px, #edf2f7 100%);
 }
 
-/* ── Custom scrollbar ── */
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+}
+
+html.light .glass-panel-elevated {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
+}
+
+html.light .glass-panel-interactive {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.light .glass-panel-interactive:hover {
+  background: #ffffff;
+  border-color: rgba(16, 185, 129, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -5px rgba(15, 23, 42, 0.08), 0 0 20px -5px rgba(16, 185, 129, 0.15);
+}
+
+html.light .text-slate-100,
+html.light .text-white {
+  color: #0f172a !important;
+}
+
+html.light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.light .text-slate-400 {
+  color: #64748b !important;
+}
+
+html.light .bg-midnight-950,
+html.light .bg-navy-950 {
+  background-color: #f1f5f9 !important;
+}
+
+html.light .bg-midnight-900,
+html.light .bg-navy-900 {
+  background-color: #ffffff !important;
+}
+
+html.light .bg-midnight-850,
+html.light .bg-navy-850 {
+  background-color: #f8fafc !important;
+}
+
+html.light .bg-midnight-800,
+html.light .bg-slate-800 {
+  background-color: #e2e8f0 !important;
+}
+
+html.light .border-slate-800,
+html.light .border-slate-700 {
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-slate-900 {
+  background-color: #f1f5f9 !important;
+}
+
+/* Subtle tech dot grid pattern for layered background */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+html.light .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+}
+
+/* Glass card styling (dark default) */
+.glass-panel {
+  background: rgba(7, 12, 30, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-elevated {
+  background: rgba(11, 18, 43, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+}
+
+.glass-panel-interactive {
+  background: rgba(7, 12, 30, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-interactive:hover {
+  background: rgba(16, 27, 61, 0.85);
+  border-color: rgba(16, 185, 129, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(16, 185, 129, 0.15);
+}
+
+/* Emerald cyber glow */
+.glow-emerald {
+  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.2);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.2);
+}
+
+.glow-danger {
+  box-shadow: 0 0 35px -5px rgba(239, 68, 68, 0.2);
+}
+
+/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -138,7 +189,19 @@
   background: #1E316B;
 }
 
-/* ── Reduced motion ── */
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
