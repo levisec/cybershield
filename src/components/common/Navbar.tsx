@@ -53,6 +53,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSignOut,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 12);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleNavClick = (tab: ActiveTab) => {
     onSelectTab(tab);
@@ -63,7 +72,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isAdmin = currentUser?.role === 'admin';
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-navy-950/85 backdrop-blur-md">
+    <header
+      className={`sticky top-0 z-40 w-full transition-all duration-200 ${
+        scrolled
+          ? 'border-b border-slate-800 bg-midnight-950/95 backdrop-blur-xl shadow-xl shadow-black/50'
+          : 'border-b border-slate-800/80 bg-midnight-950/80 backdrop-blur-md'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}

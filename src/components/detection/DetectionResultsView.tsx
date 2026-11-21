@@ -76,11 +76,11 @@ export const DetectionResultsView: React.FC<DetectionResultsViewProps> = ({
         }`}
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
-          <div className="space-y-1">
+          <div className="space-y-2">
             <div className="flex items-center gap-2 flex-wrap">
               <RiskBadge level={result.risk_level} size="lg" />
-              <span className="text-xs font-mono text-slate-400 bg-navy-950 px-2 py-0.5 rounded border border-slate-800">
-                Score: {result.risk_score} / 100
+              <span className="text-xs font-mono text-slate-300 bg-midnight-950 px-2.5 py-0.5 rounded-lg border border-slate-800 font-bold">
+                Threat Score: {result.risk_score} / 100
               </span>
               {analysis && (
                 <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
@@ -88,7 +88,22 @@ export const DetectionResultsView: React.FC<DetectionResultsViewProps> = ({
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
+            
+            {/* Visual Threat Meter */}
+            <div className="w-48 sm:w-64 h-1.5 bg-midnight-950 rounded-full overflow-hidden border border-slate-800">
+              <div
+                className={`h-full rounded-full transition-all duration-700 ${
+                  result.risk_level === 'HIGH_RISK'
+                    ? 'bg-gradient-to-r from-amber-500 to-rose-500'
+                    : result.risk_level === 'MEDIUM_RISK'
+                    ? 'bg-amber-400'
+                    : 'bg-emerald-400'
+                }`}
+                style={{ width: `${Math.max(result.risk_score, 8)}%` }}
+              />
+            </div>
+
+            <div className="flex items-center gap-2 text-xs text-slate-400 pt-0.5">
               <Clock className="w-3.5 h-3.5" />
               <span>Analyzed on {formatDate(result.created_at)}</span>
               <span>•</span>

@@ -14,9 +14,11 @@ import {
   Sparkles,
   Lock,
 } from 'lucide-react';
+import { ActiveTab } from '../common/Navbar';
 
 interface UrlCheckerViewProps {
   onReportScam?: () => void;
+  onNavigate?: (tab: ActiveTab) => void;
 }
 
 export const UrlCheckerView: React.FC<UrlCheckerViewProps> = ({ onReportScam }) => {
