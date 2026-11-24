@@ -179,17 +179,6 @@ export const PersonalSecurityChecklist: React.FC = () => {
           </div>
         ))}
       </div>
-                >
-                  {item.impact} Priority
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                {item.description}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
 
       {progressPercent === 100 && (
         <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-950/40 to-cyan-950/40 border border-emerald-500/40 text-xs text-emerald-300 flex items-center gap-2">

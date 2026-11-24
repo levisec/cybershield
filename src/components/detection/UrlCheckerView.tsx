@@ -89,23 +89,23 @@ export const UrlCheckerView: React.FC<UrlCheckerViewProps> = ({ onReportScam }) 
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
-      {/* Header */}
-      <div className="space-y-2">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-10 sm:space-y-12 animate-fade-in">
+      {/* Header with Generous Whitespace */}
+      <div className="space-y-3">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold border border-blue-500/20">
           <Globe className="w-3.5 h-3.5" />
           <span>Web Link & Domain Security Inspection</span>
         </div>
-        <h1 className="text-3xl font-extrabold text-white">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
           Suspicious URL & Phishing Link Checker
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-2xl">
+        <p className="text-slate-400 text-sm sm:text-base max-w-2xl leading-relaxed">
           Paste any link received in an email, message, or social media post. CyberShield checks for lookalike brand names, deceptive homoglyphs, suspicious domain extensions, and private SSRF routing without navigating or visiting the target site.
         </p>
       </div>
 
       {!checkResult ? (
-        <Card variant="elevated" className="p-6 bg-navy-900 border-slate-800 space-y-5">
+        <Card variant="elevated" className="p-7 sm:p-10 bg-navy-900 border-slate-800 space-y-7 shadow-2xl shadow-black/40">
           <div className="space-y-3">
             <Input
               label="Enter suspicious URL or website link:"

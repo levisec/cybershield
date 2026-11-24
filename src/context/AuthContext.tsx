@@ -423,21 +423,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
     return { success: true };
   };
-        .eq('id', currentUser.id);
-
-      if (error) return { success: false, error: error.message };
-    }
-
-    saveLocalUser(updatedUser);
-    LocalStore.addAuditLog({
-      actor_id: currentUser.id,
-      actor_email: currentUser.email,
-      action: 'PROFILE_UPDATE',
-      resource_type: 'USER_PROFILE',
-      details: 'Updated profile preferences',
-    });
-    return { success: true };
-  };
 
   const deleteAccount = async (): Promise<{ success: boolean; error?: string }> => {
     if (!currentUser) return { success: false, error: 'Not authenticated' };

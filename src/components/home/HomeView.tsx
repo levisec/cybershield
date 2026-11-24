@@ -113,7 +113,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onQuickScanExamp
   /* ──────────────────────── COMPONENT ──────────────────────── */
 
   return (
-    <div className="space-y-20 py-8 md:py-16">
+    <div className="space-y-28 sm:space-y-36 py-12 md:py-20">
 
       {/* ══════════════════════════════════════════════════════
           SECTION 1 · HERO
@@ -122,7 +122,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onQuickScanExamp
         {/* Ambient glow */}
         <div className="absolute left-1/2 -translate-x-1/2 -top-20 w-[700px] h-72 bg-emerald-500/8 blur-[120px] pointer-events-none rounded-full" />
 
-        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-16 sm:gap-20 items-center">
           {/* ── Left: Copy ── */}
           <div className="space-y-7">
             {/* Badge */}

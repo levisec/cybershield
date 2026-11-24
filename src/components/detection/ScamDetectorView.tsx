@@ -188,33 +188,33 @@ export const ScamDetectorView: React.FC<ScamDetectorViewProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8">
-      {/* ── Header ── */}
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-10 sm:space-y-12 animate-fade-in">
+      {/* ── Header with Generous Whitespace ── */}
       <div className="space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold border border-emerald-500/20">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold border border-emerald-500/20">
           <Search className="w-3.5 h-3.5" />
           <span>AI Scam Detection Engine</span>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
             Check a{' '}
             <span className="text-gradient-emerald">Suspicious Message</span>
           </h1>
-          <p className="text-slate-400 text-sm max-w-2xl leading-relaxed">
+          <p className="text-slate-400 text-sm sm:text-base max-w-2xl leading-relaxed">
             Paste any WhatsApp message, SMS, email, or job offer. We'll analyze it for scam
             patterns, urgency tactics, and impersonation signals — instantly.
           </p>
         </div>
 
         {/* Trust badges */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2.5 pt-1">
           {TRUST_BADGES.map(({ icon: Icon, label }) => (
             <div
               key={label}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium text-slate-400 border border-slate-700/60 bg-slate-800/40"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium text-slate-400 border border-slate-700/60 bg-slate-800/40"
             >
-              <Icon className="w-3 h-3 text-emerald-400" />
+              <Icon className="w-3.5 h-3.5 text-emerald-400" />
               {label}
             </div>
           ))}
@@ -223,9 +223,9 @@ export const ScamDetectorView: React.FC<ScamDetectorViewProps> = ({
 
       {/* ── Input or Results ── */}
       {!analysisResult ? (
-        <div className="space-y-6">
-          {/* Input Card */}
-          <div className="glass-panel-elevated rounded-2xl p-6 space-y-5 border border-slate-700/50">
+        <div className="space-y-8 sm:space-y-10">
+          {/* Input Card with Relaxed Padding */}
+          <div className="glass-panel-elevated rounded-3xl p-7 sm:p-10 space-y-7 border border-slate-700/50 shadow-2xl shadow-black/40">
             {/* Type tabs + OCR toggle */}
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
               <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-800/60 border border-slate-700/40">
