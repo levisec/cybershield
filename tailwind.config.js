@@ -9,23 +9,23 @@ export default {
     extend: {
       colors: {
         midnight: {
-          950: '#040711', // Deepest background
-          900: '#070C1E', // Base dark surface
-          850: '#0B122B', // Elevated card surface
-          800: '#101B3D', // Hover / interactive card
-          750: '#172552', // Border / highlight surface
-          700: '#1E316B',
+          950: '#06080F', // Luxurious deep obsidian canvas
+          900: '#0B0F19', // Primary dark card & surface
+          850: '#111726', // Elevated card surface
+          800: '#182135', // Hover / interactive card surface
+          750: '#202C45', // Highlight surface / subtle border
+          700: '#2A3958', // Focus / active element border
         },
         navy: {
-          950: '#040711',
-          900: '#070C1E',
-          850: '#0B122B',
-          800: '#101B3D',
-          750: '#172552',
-          700: '#1E316B',
+          950: '#06080F',
+          900: '#0B0F19',
+          850: '#111726',
+          800: '#182135',
+          750: '#202C45',
+          700: '#2A3958',
         },
         slate: {
-          850: '#0F172A',
+          850: '#0E1422',
         },
         emerald: {
           300: '#6EE7B7',
