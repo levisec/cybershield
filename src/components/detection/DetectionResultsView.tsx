@@ -18,6 +18,10 @@ import {
   ChevronDown,
   Info,
   RotateCcw,
+  PhoneCall,
+  EyeOff,
+  AlertOctagon,
+  Scale,
 } from 'lucide-react';
 
 interface DetectionResultsViewProps {
@@ -244,6 +248,84 @@ export const DetectionResultsView: React.FC<DetectionResultsViewProps> = ({
         </Card>
       )}
 
+      {/* ── UX Psychology Principle 5: Loss Aversion & Real Stakes ── */}
+      {result.risk_level !== 'LOW_RISK' && (
+        <Card className="p-6 bg-navy-900 border-amber-500/30 space-y-4 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-rose-500" />
+          <div className="flex items-center gap-2">
+            <AlertOctagon className="w-4 h-4 text-amber-400" />
+            <h3 className="text-sm font-semibold text-white">
+              Potential Consequences & Risks You Avoid by Pausing
+            </h3>
+          </div>
+          <p className="text-xs text-slate-300 leading-relaxed">
+            CyberShield identifies how social engineering tactics leverage fear and urgency to bypass rational scrutiny. Engaging with this communication could lead to:
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+            <div className="p-3 rounded-xl bg-midnight-950/70 border border-slate-800 space-y-1">
+              <span className="text-[11px] font-bold text-rose-300 flex items-center gap-1.5">
+                <EyeOff className="w-3.5 h-3.5" />
+                Financial Loss
+              </span>
+              <p className="text-[11px] text-slate-400 leading-normal">
+                Unauthorized UPI debit mandates, OTP interception, or fraudulent gateway forms draining balances.
+              </p>
+            </div>
+
+            <div className="p-3 rounded-xl bg-midnight-950/70 border border-slate-800 space-y-1">
+              <span className="text-[11px] font-bold text-amber-300 flex items-center gap-1.5">
+                <Scale className="w-3.5 h-3.5" />
+                Identity Abuse
+              </span>
+              <p className="text-[11px] text-slate-400 leading-normal">
+                Aadhaar/PAN details harvested to create synthetic lending accounts or spoof SIM cards.
+              </p>
+            </div>
+
+            <div className="p-3 rounded-xl bg-midnight-950/70 border border-slate-800 space-y-1">
+              <span className="text-[11px] font-bold text-purple-300 flex items-center gap-1.5">
+                <ShieldAlert className="w-3.5 h-3.5" />
+                Device Takeover
+              </span>
+              <p className="text-[11px] text-slate-400 leading-normal">
+                Remote access utilities (AnyDesk/TeamViewer/APK) enabling background screen recording and SMS eavesdropping.
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* ── UX Psychology Principle 6: Contrast Effect (The Bait vs. The Reality) ── */}
+      {result.risk_level === 'HIGH_RISK' && (
+        <Card className="p-6 bg-navy-900 border-slate-800 space-y-4">
+          <div className="flex items-center gap-2">
+            <Scale className="w-4 h-4 text-emerald-400" />
+            <h3 className="text-sm font-semibold text-white">
+              The Reality Check: Bait vs. Reality
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-1.5">
+              <span className="text-[11px] uppercase tracking-wider font-bold text-rose-300">
+                What the sender wants you to believe
+              </span>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                An urgent official deadline (power cutoff, blocked bank card, quick lottery/cashback, or police investigation) requiring immediate compliance before you can think or verify.
+              </p>
+            </div>
+            <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/30 space-y-1.5">
+              <span className="text-[11px] uppercase tracking-wider font-bold text-emerald-300">
+                What cybersecurity reality indicates
+              </span>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Genuine utility boards, banks, and law enforcement agencies never request urgent funds via personal mobile numbers, unofficial domains, or AnyDesk remote control apps.
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
+
       {/* Recommended Next Actions */}
       <Card className="p-6 bg-navy-900 border-slate-800 space-y-4">
         <h3 className="text-sm font-semibold text-white flex items-center gap-2">
@@ -263,6 +345,27 @@ export const DetectionResultsView: React.FC<DetectionResultsViewProps> = ({
             )
           )}
         </ul>
+
+        {result.risk_level === 'HIGH_RISK' && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3.5 rounded-xl bg-midnight-950 border border-emerald-500/30">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                <PhoneCall className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-white">Already transferred funds or shared confidential OTP?</p>
+                <p className="text-[11px] text-slate-400">Act immediately within the "Golden Hour" by notifying the National Cyber Helpline.</p>
+              </div>
+            </div>
+            <a
+              href="tel:1930"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-midnight-950 text-xs font-bold transition-all shadow-md shadow-emerald-500/20 shrink-0"
+            >
+              <PhoneCall className="w-3.5 h-3.5" />
+              Dial 1930 Helpline
+            </a>
+          </div>
+        )}
 
         {result.risk_level === 'HIGH_RISK' && onReportScam && (
           <div className="pt-2 flex items-center justify-between p-3 rounded-lg bg-rose-950/20 border border-rose-500/30">

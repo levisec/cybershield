@@ -56,9 +56,10 @@ export const UrlCheckerView: React.FC<UrlCheckerViewProps> = ({ onReportScam }) 
     },
   ];
 
-  const handleAnalyze = () => {
+  const handleAnalyze = (urlOverride?: string) => {
+    const urlToTest = urlOverride !== undefined ? urlOverride : inputUrl;
     setErrorMsg('');
-    if (!inputUrl.trim()) {
+    if (!urlToTest.trim()) {
       setErrorMsg('Please enter a web address or domain to analyze.');
       return;
     }
@@ -67,7 +68,7 @@ export const UrlCheckerView: React.FC<UrlCheckerViewProps> = ({ onReportScam }) 
 
     setTimeout(() => {
       try {
-        const result = analyzeUrl(inputUrl);
+        const result = analyzeUrl(urlToTest);
         setCheckResult(result);
 
         if (currentUser && currentUser.save_history_consent) {
@@ -126,7 +127,7 @@ export const UrlCheckerView: React.FC<UrlCheckerViewProps> = ({ onReportScam }) 
             <Button
               variant="primary"
               size="md"
-              onClick={handleAnalyze}
+              onClick={() => handleAnalyze()}
               isLoading={isAnalyzing}
               leftIcon={<Search className="w-4 h-4" />}
               className="text-xs font-semibold px-6"
@@ -160,7 +161,7 @@ export const UrlCheckerView: React.FC<UrlCheckerViewProps> = ({ onReportScam }) 
                   onClick={() => {
                     setInputUrl(s.url);
                     setErrorMsg('');
-                    setCheckResult(null);
+                    handleAnalyze(s.url);
                   }}
                   className="px-2.5 py-1.5 rounded-lg bg-navy-950 border border-slate-800 hover:border-slate-700 text-left transition-colors text-xs flex items-center gap-2 group"
                 >
