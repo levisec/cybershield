@@ -44,97 +44,97 @@ export const UserDashboardView: React.FC<UserDashboardViewProps> = ({ onNavigate
   const recentUrls = urlChecks.slice(0, 2);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
-      {/* Welcome Banner */}
-      <div className="rounded-2xl bg-gradient-to-r from-midnight-850 via-midnight-900 to-midnight-900 border border-slate-700/80 p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold border border-emerald-500/20">
-            <LayoutDashboard className="w-3.5 h-3.5" />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-12 sm:space-y-14 animate-fade-in">
+      {/* Welcome Banner with Generous Whitespace */}
+      <div className="rounded-3xl bg-gradient-to-r from-midnight-850 via-midnight-900 to-midnight-900 border border-slate-700/80 p-8 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-8 shadow-2xl shadow-black/40">
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold border border-emerald-500/20">
+            <LayoutDashboard className="w-4 h-4" />
             <span>Cyber Defense Command</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Welcome back, {currentUser?.display_name || currentUser?.email.split('@')[0] || 'User'}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
+          <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
             Monitor your personal scans, track your cyber defense readiness checklist, and quickly verify any suspicious incoming messages.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
           <Button
             variant="primary"
-            size="sm"
+            size="md"
             onClick={() => onNavigate('detector')}
             leftIcon={<Search className="w-4 h-4" />}
-            className="text-xs font-semibold"
+            className="text-xs font-semibold px-5 py-2.5 shadow-lg shadow-emerald-500/20"
           >
             New Scam Scan
           </Button>
           <Button
             variant="secondary"
-            size="sm"
+            size="md"
             onClick={() => onNavigate('url-checker')}
             leftIcon={<Globe className="w-4 h-4 text-emerald-400" />}
-            className="text-xs"
+            className="text-xs px-5 py-2.5"
           >
             Check URL
           </Button>
         </div>
       </div>
 
-      {/* Real Statistics Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="p-4 bg-midnight-900 border-slate-800 space-y-1">
-          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+      {/* Real Statistics Cards with Generous Spacing */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <Card className="p-6 bg-midnight-900 border-slate-800 space-y-2">
+          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
             Total Inquiries
           </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-bold font-mono text-white">
+          <div className="flex items-baseline gap-2 pt-1">
+            <span className="text-3xl sm:text-4xl font-bold font-mono text-white">
               {totalScans}
             </span>
-            <span className="text-[10px] text-slate-500">inspected</span>
+            <span className="text-xs text-slate-500">inspected</span>
           </div>
         </Card>
 
-        <Card className="p-4 bg-midnight-900 border-rose-500/30 space-y-1">
-          <span className="text-[11px] font-semibold text-rose-400 uppercase tracking-wider">
+        <Card className="p-6 bg-midnight-900 border-rose-500/30 space-y-2">
+          <span className="text-xs font-semibold text-rose-400 uppercase tracking-wider">
             High Risk Blocked
           </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-bold font-mono text-rose-400">
+          <div className="flex items-baseline gap-2 pt-1">
+            <span className="text-3xl sm:text-4xl font-bold font-mono text-rose-400">
               {highRiskCount}
             </span>
-            <span className="text-[10px] text-rose-300/70">threats spotted</span>
+            <span className="text-xs text-rose-300/70">threats spotted</span>
           </div>
         </Card>
 
-        <Card className="p-4 bg-midnight-900 border-amber-500/30 space-y-1">
-          <span className="text-[11px] font-semibold text-amber-400 uppercase tracking-wider">
+        <Card className="p-6 bg-midnight-900 border-amber-500/30 space-y-2">
+          <span className="text-xs font-semibold text-amber-400 uppercase tracking-wider">
             Medium Caution
           </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-bold font-mono text-amber-400">
+          <div className="flex items-baseline gap-2 pt-1">
+            <span className="text-3xl sm:text-4xl font-bold font-mono text-amber-400">
               {mediumRiskCount}
             </span>
-            <span className="text-[10px] text-amber-300/70">suspicious flags</span>
+            <span className="text-xs text-amber-300/70">suspicious flags</span>
           </div>
         </Card>
 
-        <Card className="p-4 bg-midnight-900 border-emerald-500/30 space-y-1">
-          <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">
+        <Card className="p-6 bg-midnight-900 border-emerald-500/30 space-y-2">
+          <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
             Safe Benchmarks
           </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl sm:text-3xl font-bold font-mono text-emerald-400">
+          <div className="flex items-baseline gap-2 pt-1">
+            <span className="text-3xl sm:text-4xl font-bold font-mono text-emerald-400">
               {lowRiskCount}
             </span>
-            <span className="text-[10px] text-emerald-300/70">low risk</span>
+            <span className="text-xs text-emerald-300/70">low risk</span>
           </div>
         </Card>
       </div>
 
-      {/* Main Grid: Security Checklist & Recent Scans */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* Main Grid with Generous Gaps */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 items-start">
         {/* Left Column: Personal Security Readiness Checklist (IKEA & Goal Gradient Effects) */}
         <div className="lg:col-span-7 space-y-6">
           <PersonalSecurityChecklist />

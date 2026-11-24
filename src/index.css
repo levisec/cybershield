@@ -7,6 +7,10 @@
     --color-midnight-bg: #040711;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: #040711;
     color: #f1f5f9;
