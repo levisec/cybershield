@@ -18,6 +18,66 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const LOCAL_USER_STORAGE_KEY = 'cybershield_active_user';
 
+/**
+ * Resolves the user's display name robustly across:
+ * 1. Supabase profiles DB table
+ * 2. Supabase auth user_metadata (display_name, full_name, name)
+ * 3. Durable localStorage mapping by email/userId
+ * 4. Graceful username fallback
+ */
+export const resolveDisplayName = (user: any, profile?: any): string => {
+  // 1. Check database profile
+  if (profile?.display_name && typeof profile.display_name === 'string' && profile.display_name.trim()) {
+    return profile.display_name.trim();
+  }
+
+  // 2. Check Supabase user_metadata
+  const meta = user?.user_metadata || {};
+  if (meta.display_name && typeof meta.display_name === 'string' && meta.display_name.trim()) {
+    return meta.display_name.trim();
+  }
+  if (meta.full_name && typeof meta.full_name === 'string' && meta.full_name.trim()) {
+    return meta.full_name.trim();
+  }
+  if (meta.name && typeof meta.name === 'string' && meta.name.trim()) {
+    return meta.name.trim();
+  }
+
+  // 3. Check persistent localStorage mapping by email
+  const email = (user?.email || profile?.email || '').toLowerCase().trim();
+  if (email) {
+    try {
+      const storedByEmail = localStorage.getItem('cybershield_name_' + email);
+      if (storedByEmail && storedByEmail.trim()) {
+        return storedByEmail.trim();
+      }
+    } catch {
+      // Ignore storage errors
+    }
+  }
+
+  // 4. Check persistent localStorage mapping by user ID
+  const userId = user?.id || profile?.id;
+  if (userId) {
+    try {
+      const storedById = localStorage.getItem('cybershield_name_' + userId);
+      if (storedById && storedById.trim()) {
+        return storedById.trim();
+      }
+    } catch {
+      // Ignore storage errors
+    }
+  }
+
+  // 5. Fallback: formatted username portion of email
+  if (email && email.includes('@')) {
+    const raw = email.split('@')[0];
+    return raw.charAt(0).toUpperCase() + raw.slice(1);
+  }
+
+  return 'User';
+};
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -31,31 +91,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const { data: { session } } = await supabase.auth.getSession();
           if (session?.user) {
             // Fetch profile
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .single();
-
-            if (profile) {
-              setCurrentUser({
-                id: profile.id,
-                email: profile.email,
-                display_name: profile.display_name,
-                role: profile.role || 'user',
-                created_at: profile.created_at,
-                save_history_consent: profile.save_history_consent ?? true,
-              });
-            } else {
-              setCurrentUser({
-                id: session.user.id,
-                email: session.user.email || 'user@cybershield.local',
-                display_name: session.user.user_metadata?.display_name,
-                role: 'user',
-                created_at: session.user.created_at,
-                save_history_consent: true,
-              });
+            let profileData: any = null;
+            try {
+              const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+              profileData = profile;
+            } catch {
+              // Profiles table might not exist yet
             }
+
+            const name = resolveDisplayName(session.user, profileData);
+
+            // Keep local persistence synchronized
+            if (session.user.email) {
+              try {
+                localStorage.setItem('cybershield_name_' + session.user.email.toLowerCase().trim(), name);
+                localStorage.setItem('cybershield_name_' + session.user.id, name);
+              } catch {
+                // Ignore
+              }
+            }
+
+            setCurrentUser({
+              id: session.user.id,
+              email: session.user.email || 'user@cybershield.local',
+              display_name: name,
+              role: profileData?.role || 'user',
+              created_at: session.user.created_at,
+              save_history_consent: profileData?.save_history_consent ?? true,
+            });
           }
         } catch (err) {
           console.warn('Supabase session load error, falling back to local session', err);
@@ -82,19 +149,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { data: authListener } = sb.auth.onAuthStateChange(
         async (_event, session) => {
           if (session?.user) {
-            const { data: profile } = await sb
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .single();
+            let profileData: any = null;
+            try {
+              const { data: profile } = await sb
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+              profileData = profile;
+            } catch {
+              // Profiles table might not exist
+            }
+
+            const name = resolveDisplayName(session.user, profileData);
+
+            if (session.user.email) {
+              try {
+                localStorage.setItem('cybershield_name_' + session.user.email.toLowerCase().trim(), name);
+                localStorage.setItem('cybershield_name_' + session.user.id, name);
+              } catch {
+                // Ignore
+              }
+            }
 
             setCurrentUser({
               id: session.user.id,
               email: session.user.email || '',
-              display_name: profile?.display_name || session.user.user_metadata?.display_name,
-              role: profile?.role || 'user',
+              display_name: name,
+              role: profileData?.role || 'user',
               created_at: session.user.created_at,
-              save_history_consent: profile?.save_history_consent ?? true,
+              save_history_consent: profileData?.save_history_consent ?? true,
             });
           } else {
             setCurrentUser(null);
@@ -119,9 +203,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signIn = async (email: string, password?: string): Promise<{ success: boolean; error?: string }> => {
     setIsLoading(true);
+    const cleanEmail = email.toLowerCase().trim();
     try {
       if (isSupabaseConfigured() && supabase && password) {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
         if (error) {
           setIsLoading(false);
           if (error.message.toLowerCase().includes('email not confirmed')) {
@@ -133,15 +218,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
           return { success: false, error: error.message };
         }
+
+        // Synchronize and verify name persistence
+        if (data?.user) {
+          const resolved = resolveDisplayName(data.user);
+          try {
+            localStorage.setItem('cybershield_name_' + cleanEmail, resolved);
+            if (data.user.id) {
+              localStorage.setItem('cybershield_name_' + data.user.id, resolved);
+            }
+          } catch {
+            // Ignore
+          }
+        }
+
         setIsLoading(false);
         return { success: true };
       } else {
         // Fallback local authentication
+        const cleanName = resolveDisplayName({ email: cleanEmail });
         const demoUser: UserProfile = {
           id: 'usr-' + Math.random().toString(36).substring(2, 9),
-          email,
-          display_name: email.split('@')[0],
-          role: email.toLowerCase().includes('admin') ? 'admin' : 'user',
+          email: cleanEmail,
+          display_name: cleanName,
+          role: cleanEmail.toLowerCase().includes('admin') ? 'admin' : 'user',
           created_at: new Date().toISOString(),
           save_history_consent: true,
         };
@@ -168,27 +268,58 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     displayName?: string
   ): Promise<{ success: boolean; error?: string; needsConfirmation?: boolean }> => {
     setIsLoading(true);
+    const cleanEmail = email.toLowerCase().trim();
+    const cleanName = displayName?.trim() || cleanEmail.split('@')[0];
+
+    // Immediately persist name locally for this email
+    try {
+      localStorage.setItem('cybershield_name_' + cleanEmail, cleanName);
+    } catch {
+      // Ignore
+    }
+
     try {
       if (isSupabaseConfigured() && supabase && password) {
         const { data, error } = await supabase.auth.signUp({
-          email,
+          email: cleanEmail,
           password,
           options: {
-            data: { display_name: displayName || email.split('@')[0] },
+            data: {
+              display_name: cleanName,
+              full_name: cleanName,
+              name: cleanName,
+            },
           },
         });
         if (error) {
           setIsLoading(false);
           return { success: false, error: error.message };
         }
+
+        if (data?.user?.id) {
+          try {
+            localStorage.setItem('cybershield_name_' + data.user.id, cleanName);
+            // Attempt to insert/upsert into profiles table
+            await supabase.from('profiles').upsert({
+              id: data.user.id,
+              email: cleanEmail,
+              display_name: cleanName,
+              role: 'user',
+              save_history_consent: true,
+            });
+          } catch {
+            // Ignore if schema trigger or table not ready
+          }
+        }
+
         setIsLoading(false);
         const needsConfirmation = !data.session;
         return { success: true, needsConfirmation };
       } else {
         const newUser: UserProfile = {
           id: 'usr-' + Math.random().toString(36).substring(2, 9),
-          email,
-          display_name: displayName || email.split('@')[0],
+          email: cleanEmail,
+          display_name: cleanName,
           role: 'user',
           created_at: new Date().toISOString(),
           save_history_consent: true,
@@ -227,7 +358,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const resetPassword = async (email: string): Promise<{ success: boolean; error?: string }> => {
     if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      const { error } = await supabase.auth.resetPasswordForEmail(email.toLowerCase().trim());
       if (error) return { success: false, error: error.message };
       return { success: true };
     }
@@ -241,19 +372,57 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   ): Promise<{ success: boolean; error?: string }> => {
     if (!currentUser) return { success: false, error: 'Not authenticated' };
 
+    const cleanName = displayName.trim() || currentUser.email.split('@')[0];
     const updatedUser: UserProfile = {
       ...currentUser,
-      display_name: displayName,
+      display_name: cleanName,
       save_history_consent: saveHistoryConsent,
     };
 
+    // Keep localStorage synchronized
+    try {
+      localStorage.setItem('cybershield_name_' + currentUser.email.toLowerCase().trim(), cleanName);
+      localStorage.setItem('cybershield_name_' + currentUser.id, cleanName);
+    } catch {
+      // Ignore
+    }
+
     if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          display_name: displayName,
-          save_history_consent: saveHistoryConsent,
-        })
+      try {
+        await supabase.auth.updateUser({
+          data: {
+            display_name: cleanName,
+            full_name: cleanName,
+            name: cleanName,
+          },
+        });
+      } catch {
+        // Ignore
+      }
+
+      try {
+        await supabase
+          .from('profiles')
+          .update({
+            display_name: cleanName,
+            save_history_consent: saveHistoryConsent,
+          })
+          .eq('id', currentUser.id);
+      } catch {
+        // Ignore
+      }
+    }
+
+    saveLocalUser(updatedUser);
+    LocalStore.addAuditLog({
+      actor_id: currentUser.id,
+      actor_email: currentUser.email,
+      action: 'PROFILE_UPDATE',
+      resource_type: 'USER_PROFILE',
+      details: `Updated display name to "${cleanName}"`,
+    });
+    return { success: true };
+  };
         .eq('id', currentUser.id);
 
       if (error) return { success: false, error: error.message };
