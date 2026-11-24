@@ -31,7 +31,7 @@ interface HomeViewProps {
   onQuickScanExample?: (sampleText: string) => void;
 }
 
-export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
+export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onQuickScanExample }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   /* ─────────────────────────── DATA ─────────────────────────── */
@@ -182,14 +182,32 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               <p className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold">Try a real scam sample →</p>
               <div className="flex flex-wrap gap-2">
                 {[
-                  { label: '"Urgent: Electricity bill unpaid..."', hint: 'Fake disconnection' },
-                  { label: '"Scan QR to receive ₹5,000..."', hint: 'UPI collect fraud' },
-                  { label: '"Work from home – ₹800/task..."', hint: 'Telegram task scam' },
+                  {
+                    label: '"Urgent: Electricity bill unpaid..."',
+                    hint: 'Fake disconnection',
+                    text: 'Dear consumer, your electricity power will be disconnected tonight at 9.30 PM from the power office because your previous month bill was not updated. Please immediately contact our electricity officer Rahul Sharma at 9876543210. Thank you.',
+                  },
+                  {
+                    label: '"Scan QR to receive ₹5,000..."',
+                    hint: 'UPI collect fraud',
+                    text: 'Congratulations! You have received a cashback refund of ₹5,000 for your recent transaction. Scan this QR code and enter your UPI PIN to instantly receive the amount in your bank account.',
+                  },
+                  {
+                    label: '"Work from home – ₹800/task..."',
+                    hint: 'Telegram task scam',
+                    text: 'Earn ₹2,000 to ₹8,000 daily working from home! Simple YouTube video liking and Google reviews task. Join our official Telegram channel @fast_cash_india to start receiving payments immediately.',
+                  },
                 ].map((chip, i) => (
                   <button
                     key={i}
-                    onClick={() => onNavigate('detector')}
-                    className="group flex items-center gap-2 px-3 py-1.5 rounded-lg glass-panel border border-slate-700/60 hover:border-emerald-500/40 transition-all text-xs text-left"
+                    onClick={() => {
+                      if (onQuickScanExample) {
+                        onQuickScanExample(chip.text);
+                      } else {
+                        onNavigate('detector');
+                      }
+                    }}
+                    className="group flex items-center gap-2 px-3 py-1.5 rounded-lg glass-panel border border-slate-700/60 hover:border-emerald-500/40 hover:bg-emerald-500/5 transition-all text-xs text-left cursor-pointer"
                   >
                     <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
                     <span className="text-slate-300 group-hover:text-emerald-300 transition-colors truncate max-w-[180px]">{chip.label}</span>

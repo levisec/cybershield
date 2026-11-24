@@ -25,6 +25,7 @@ import { UserProfileModal } from './components/auth/UserProfileModal';
 const AppInner: React.FC = () => {
   const { currentUser, signOut, isLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
+  const [preloadedDetectorText, setPreloadedDetectorText] = useState<string | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
@@ -36,6 +37,12 @@ const AppInner: React.FC = () => {
       return; // stay on current tab
     }
     setActiveTab(tab);
+  };
+
+  /** Quick scan helper to jump from homepage chips straight to detector with text filled */
+  const handleQuickScanExample = (sampleText: string) => {
+    setPreloadedDetectorText(sampleText);
+    setActiveTab('detector');
   };
 
   const handleClearLocalHistory = () => {
@@ -71,7 +78,12 @@ const AppInner: React.FC = () => {
 
       {/* ── Main content ─────────────────────────────────────────────────── */}
       <main className="flex-1">
-        {activeTab === 'home' && <HomeView onNavigate={handleNavigate} />}
+        {activeTab === 'home' && (
+          <HomeView
+            onNavigate={handleNavigate}
+            onQuickScanExample={handleQuickScanExample}
+          />
+        )}
 
         {activeTab === 'about' && <AboutView onNavigate={handleNavigate} />}
 
@@ -85,6 +97,7 @@ const AppInner: React.FC = () => {
           <ScamDetectorView
             onNavigate={handleNavigate}
             onReportScam={() => handleNavigate('report-scam')}
+            initialText={preloadedDetectorText}
           />
         )}
 
