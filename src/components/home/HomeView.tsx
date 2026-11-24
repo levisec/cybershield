@@ -124,12 +124,33 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onQuickScanExamp
 
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-16 sm:gap-20 items-center">
           {/* ── Left: Copy ── */}
-          <div className="space-y-7">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel border border-emerald-500/30 text-xs text-emerald-300 font-medium">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <Zap className="w-3 h-3" />
-              <span>AI-Powered Cybersecurity for Everyone</span>
+          <div className="space-y-6">
+            {/* Top Alert Bar + Badge */}
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel border border-emerald-500/40 text-xs text-emerald-300 font-semibold shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                <span>AI-Powered Cybersecurity for Everyday Netizens</span>
+              </div>
+
+              {/* High-Tech Live Scam Radar */}
+              <div className="relative overflow-hidden rounded-2xl p-3 bg-gradient-to-r from-rose-950/50 via-midnight-900 to-amber-950/40 border border-rose-500/40 flex items-center justify-between gap-3 shadow-lg shadow-rose-950/30">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-2.5 w-2.5 relative shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+                  </span>
+                  <span className="font-mono text-[10px] font-extrabold text-rose-300 uppercase tracking-widest bg-rose-500/20 px-2 py-0.5 rounded border border-rose-500/40 shrink-0">
+                    LIVE THREAT RADAR
+                  </span>
+                  <span className="text-xs text-slate-200 truncate max-w-[200px] sm:max-w-xs">
+                    Electricity Bill Power Cutoff SMS & Telegram Task Scams active today
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono font-bold text-amber-400 bg-midnight-950/90 px-2.5 py-0.5 rounded-lg border border-amber-500/40 shrink-0 hidden sm:inline">
+                  DEFCON: ELEVATED
+                </span>
+              </div>
             </div>
 
             {/* Headline */}
@@ -231,76 +252,145 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onQuickScanExamp
           SECTION 2 · HOW IT WORKS
       ══════════════════════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <p className="text-xs uppercase font-bold tracking-widest text-emerald-400">How It Works</p>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white">
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-xs uppercase font-extrabold tracking-widest text-emerald-300 shadow-sm shadow-emerald-500/20">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span>Operational Architecture</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Three simple steps to digital safety
           </h2>
-          <p className="text-slate-400 text-sm leading-relaxed">
+          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             CyberShield translates complex threat signals into clear, actionable guidance that anyone can follow — no technical knowledge needed.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Step 01 */}
-          <Card variant="elevated" className="p-6 space-y-5 relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/60 to-emerald-500/0" />
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                <Search className="w-6 h-6 text-emerald-400" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Step 01 · Detect */}
+          <div className="relative group rounded-3xl p-7 sm:p-8 bg-gradient-to-b from-emerald-950/60 via-midnight-900 to-midnight-950 border-2 border-emerald-500/40 hover:border-emerald-400 transition-all duration-300 shadow-xl hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] space-y-6 overflow-hidden">
+            {/* Top scanning neon beam */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_rgba(16,185,129,0.9)]" />
+            
+            {/* Ambient radial glow orb */}
+            <div className="absolute -top-12 -right-12 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/30 transition-all" />
+
+            <div className="flex items-center justify-between">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/25 border-2 border-emerald-400/60 flex items-center justify-center text-emerald-300 shadow-[0_0_25px_rgba(16,185,129,0.45)] group-hover:scale-110 transition-transform">
+                <Search className="w-7 h-7 text-emerald-300" />
               </div>
-              <span className="text-3xl font-black text-emerald-500/20 tracking-tight select-none">01</span>
+              <span className="text-5xl sm:text-6xl font-black font-mono tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-emerald-300 via-teal-300 to-emerald-500 drop-shadow-[0_0_25px_rgba(16,185,129,0.7)] select-none">
+                01
+              </span>
             </div>
-            <div className="space-y-1.5">
-              <h3 className="text-lg font-bold text-white">Detect</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-extrabold text-white group-hover:text-emerald-300 transition-colors">
+                  Detect
+                </h3>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm">
+                  Active Parser
+                </span>
+              </div>
+              <p className="text-slate-300 text-sm leading-relaxed">
                 Paste any suspicious message, enter a URL, or describe an offer. Our engine scans for urgency language, impersonation signals, deceptive domains, and known scam templates — all before you share a single detail.
               </p>
             </div>
-            <div className="pt-1">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-500/60">Emerald · Detection Layer</span>
-            </div>
-          </Card>
 
-          {/* Step 02 */}
-          <Card variant="elevated" className="p-6 space-y-5 relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-amber-500/0 via-amber-500/60 to-amber-500/0" />
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
-                <Info className="w-6 h-6 text-amber-400" />
-              </div>
-              <span className="text-3xl font-black text-amber-500/20 tracking-tight select-none">02</span>
+            <div className="pt-3 flex items-center justify-between border-t border-emerald-500/25 text-xs">
+              <span className="font-mono text-emerald-300 font-bold tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                EMERALD · HEURISTIC LAYER
+              </span>
+              <span className="text-emerald-400 font-semibold group-hover:underline">
+                Zero-Visit Safe →
+              </span>
             </div>
-            <div className="space-y-1.5">
-              <h3 className="text-lg font-bold text-white">Understand</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
+          </div>
+
+          {/* Step 02 · Understand */}
+          <div className="relative group rounded-3xl p-7 sm:p-8 bg-gradient-to-b from-amber-950/60 via-midnight-900 to-midnight-950 border-2 border-amber-500/40 hover:border-amber-400 transition-all duration-300 shadow-xl hover:shadow-[0_0_40px_rgba(245,158,11,0.3)] space-y-6 overflow-hidden">
+            {/* Top scanning neon beam */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-[0_0_15px_rgba(245,158,11,0.9)]" />
+            
+            {/* Ambient radial glow orb */}
+            <div className="absolute -top-12 -right-12 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/30 transition-all" />
+
+            <div className="flex items-center justify-between">
+              <div className="w-14 h-14 rounded-2xl bg-amber-500/25 border-2 border-amber-400/60 flex items-center justify-center text-amber-300 shadow-[0_0_25px_rgba(245,158,11,0.45)] group-hover:scale-110 transition-transform">
+                <Info className="w-7 h-7 text-amber-300" />
+              </div>
+              <span className="text-5xl sm:text-6xl font-black font-mono tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-amber-300 via-yellow-300 to-orange-500 drop-shadow-[0_0_25px_rgba(245,158,11,0.7)] select-none">
+                02
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-extrabold text-white group-hover:text-amber-300 transition-colors">
+                  Understand
+                </h3>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm">
+                  Threat Scoring
+                </span>
+              </div>
+              <p className="text-slate-300 text-sm leading-relaxed">
                 Receive a transparent risk rating — Low, Medium, or High — with specific highlighted evidence explaining <em>exactly why</em> something is suspicious, so you can make an informed decision.
               </p>
             </div>
-            <div className="pt-1">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-amber-500/60">Amber · Analysis Layer</span>
-            </div>
-          </Card>
 
-          {/* Step 03 */}
-          <Card variant="elevated" className="p-6 space-y-5 relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500/0 via-blue-500/60 to-blue-500/0" />
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-6 h-6 text-blue-400" />
-              </div>
-              <span className="text-3xl font-black text-blue-500/20 tracking-tight select-none">03</span>
+            <div className="pt-3 flex items-center justify-between border-t border-amber-500/25 text-xs">
+              <span className="font-mono text-amber-300 font-bold tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                AMBER · ANALYSIS ENGINE
+              </span>
+              <span className="text-amber-400 font-semibold group-hover:underline">
+                Transparent Evidence →
+              </span>
             </div>
-            <div className="space-y-1.5">
-              <h3 className="text-lg font-bold text-white">Protect</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
+          </div>
+
+          {/* Step 03 · Protect */}
+          <div className="relative group rounded-3xl p-7 sm:p-8 bg-gradient-to-b from-cyan-950/60 via-midnight-900 to-midnight-950 border-2 border-cyan-500/40 hover:border-cyan-400 transition-all duration-300 shadow-xl hover:shadow-[0_0_40px_rgba(6,182,212,0.3)] space-y-6 overflow-hidden">
+            {/* Top scanning neon beam */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_rgba(6,182,212,0.9)]" />
+            
+            {/* Ambient radial glow orb */}
+            <div className="absolute -top-12 -right-12 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none group-hover:bg-cyan-500/30 transition-all" />
+
+            <div className="flex items-center justify-between">
+              <div className="w-14 h-14 rounded-2xl bg-cyan-500/25 border-2 border-cyan-400/60 flex items-center justify-center text-cyan-300 shadow-[0_0_25px_rgba(6,182,212,0.45)] group-hover:scale-110 transition-transform">
+                <ShieldCheck className="w-7 h-7 text-cyan-300" />
+              </div>
+              <span className="text-5xl sm:text-6xl font-black font-mono tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-cyan-300 via-sky-300 to-blue-500 drop-shadow-[0_0_25px_rgba(6,182,212,0.7)] select-none">
+                03
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-extrabold text-white group-hover:text-cyan-300 transition-colors">
+                  Protect
+                </h3>
+                <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm">
+                  Safety Protocol
+                </span>
+              </div>
+              <p className="text-slate-300 text-sm leading-relaxed">
                 Follow concrete next steps: how to verify independently, what not to click, how to block senders, and how to recover quickly if you have already responded or shared credentials.
               </p>
             </div>
-            <div className="pt-1">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-500/60">Blue · Protection Layer</span>
+
+            <div className="pt-3 flex items-center justify-between border-t border-cyan-500/25 text-xs">
+              <span className="font-mono text-cyan-300 font-bold tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                CYAN · DEFENSE PROTOCOL
+              </span>
+              <span className="text-cyan-400 font-semibold group-hover:underline">
+                Helpline 1930 Guide →
+              </span>
             </div>
-          </Card>
+          </div>
         </div>
       </section>
 
@@ -329,33 +419,34 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onQuickScanExamp
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {scamCategories.map((cat, i) => (
-            <Card
+            <div
               key={i}
-              variant="interactive"
               onClick={() => onNavigate('detector')}
-              className="p-5 space-y-3 group"
+              className="p-6 rounded-2xl bg-midnight-900 border border-slate-800 hover:border-emerald-500/50 hover:bg-midnight-850 hover:shadow-[0_0_30px_rgba(16,185,129,0.18)] transition-all duration-300 cursor-pointer space-y-4 group relative overflow-hidden"
             >
               <div className="flex items-center justify-between">
-                <div className={`p-2.5 rounded-xl border ${cat.iconBg}`}>
+                <div className={`p-3 rounded-2xl border ${cat.iconBg} group-hover:scale-110 transition-transform shadow-md`}>
                   {cat.icon}
                 </div>
-                <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full border ${cat.tagColor}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${cat.tagColor}`}>
                   {cat.tag}
                 </span>
               </div>
-              <div className="space-y-1">
-                <h3 className="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">
+              <div className="space-y-1.5">
+                <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition-colors">
                   {cat.title}
                 </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">{cat.desc}</p>
+                <p className="text-xs text-slate-300 leading-relaxed">{cat.desc}</p>
               </div>
-              <div className="flex items-center gap-1 text-[11px] text-emerald-500/60 group-hover:text-emerald-400 transition-colors font-medium">
-                <span>Check this type</span>
-                <ChevronRight className="w-3 h-3" />
+              <div className="pt-2 flex items-center justify-between text-xs border-t border-slate-800/80">
+                <span className="text-emerald-400 font-semibold group-hover:underline flex items-center gap-1">
+                  Analyze this pattern <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <span className="text-[10px] font-mono text-slate-500">REAL-TIME THREAT</span>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </section>
